@@ -23,6 +23,8 @@ mixin _$AST {
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +34,8 @@ mixin _$AST {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +45,8 @@ mixin _$AST {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -51,6 +57,8 @@ mixin _$AST {
     required TResult Function(Subtract value) subtract,
     required TResult Function(Multiply value) multiply,
     required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +68,8 @@ mixin _$AST {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,6 +79,8 @@ mixin _$AST {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -156,6 +168,8 @@ class _$Number implements Number {
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
   }) {
     return number(value);
   }
@@ -168,6 +182,8 @@ class _$Number implements Number {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
   }) {
     return number?.call(value);
   }
@@ -180,6 +196,8 @@ class _$Number implements Number {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
     required TResult orElse(),
   }) {
     if (number != null) {
@@ -196,6 +214,8 @@ class _$Number implements Number {
     required TResult Function(Subtract value) subtract,
     required TResult Function(Multiply value) multiply,
     required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
   }) {
     return number(this);
   }
@@ -208,6 +228,8 @@ class _$Number implements Number {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
   }) {
     return number?.call(this);
   }
@@ -220,6 +242,8 @@ class _$Number implements Number {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
     required TResult orElse(),
   }) {
     if (number != null) {
@@ -309,6 +333,8 @@ class _$Add implements Add {
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
   }) {
     return add(operands);
   }
@@ -321,6 +347,8 @@ class _$Add implements Add {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
   }) {
     return add?.call(operands);
   }
@@ -333,6 +361,8 @@ class _$Add implements Add {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
     required TResult orElse(),
   }) {
     if (add != null) {
@@ -349,6 +379,8 @@ class _$Add implements Add {
     required TResult Function(Subtract value) subtract,
     required TResult Function(Multiply value) multiply,
     required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
   }) {
     return add(this);
   }
@@ -361,6 +393,8 @@ class _$Add implements Add {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
   }) {
     return add?.call(this);
   }
@@ -373,6 +407,8 @@ class _$Add implements Add {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
     required TResult orElse(),
   }) {
     if (add != null) {
@@ -462,6 +498,8 @@ class _$Subtract implements Subtract {
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
   }) {
     return subtract(operands);
   }
@@ -474,6 +512,8 @@ class _$Subtract implements Subtract {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
   }) {
     return subtract?.call(operands);
   }
@@ -486,6 +526,8 @@ class _$Subtract implements Subtract {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
     required TResult orElse(),
   }) {
     if (subtract != null) {
@@ -502,6 +544,8 @@ class _$Subtract implements Subtract {
     required TResult Function(Subtract value) subtract,
     required TResult Function(Multiply value) multiply,
     required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
   }) {
     return subtract(this);
   }
@@ -514,6 +558,8 @@ class _$Subtract implements Subtract {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
   }) {
     return subtract?.call(this);
   }
@@ -526,6 +572,8 @@ class _$Subtract implements Subtract {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
     required TResult orElse(),
   }) {
     if (subtract != null) {
@@ -616,6 +664,8 @@ class _$Multiply implements Multiply {
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
   }) {
     return multiply(operands);
   }
@@ -628,6 +678,8 @@ class _$Multiply implements Multiply {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
   }) {
     return multiply?.call(operands);
   }
@@ -640,6 +692,8 @@ class _$Multiply implements Multiply {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
     required TResult orElse(),
   }) {
     if (multiply != null) {
@@ -656,6 +710,8 @@ class _$Multiply implements Multiply {
     required TResult Function(Subtract value) subtract,
     required TResult Function(Multiply value) multiply,
     required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
   }) {
     return multiply(this);
   }
@@ -668,6 +724,8 @@ class _$Multiply implements Multiply {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
   }) {
     return multiply?.call(this);
   }
@@ -680,6 +738,8 @@ class _$Multiply implements Multiply {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
     required TResult orElse(),
   }) {
     if (multiply != null) {
@@ -769,6 +829,8 @@ class _$Divide implements Divide {
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
   }) {
     return divide(operands);
   }
@@ -781,6 +843,8 @@ class _$Divide implements Divide {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
   }) {
     return divide?.call(operands);
   }
@@ -793,6 +857,8 @@ class _$Divide implements Divide {
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
     required TResult orElse(),
   }) {
     if (divide != null) {
@@ -809,6 +875,8 @@ class _$Divide implements Divide {
     required TResult Function(Subtract value) subtract,
     required TResult Function(Multiply value) multiply,
     required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
   }) {
     return divide(this);
   }
@@ -821,6 +889,8 @@ class _$Divide implements Divide {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
   }) {
     return divide?.call(this);
   }
@@ -833,6 +903,8 @@ class _$Divide implements Divide {
     TResult Function(Subtract value)? subtract,
     TResult Function(Multiply value)? multiply,
     TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
     required TResult orElse(),
   }) {
     if (divide != null) {
@@ -848,6 +920,349 @@ abstract class Divide implements AST {
   List<AST> get operands;
   @JsonKey(ignore: true)
   _$$DivideCopyWith<_$Divide> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AssignCopyWith<$Res> {
+  factory _$$AssignCopyWith(_$Assign value, $Res Function(_$Assign) then) =
+      __$$AssignCopyWithImpl<$Res>;
+  $Res call({String variable, AST value});
+
+  $ASTCopyWith<$Res> get value;
+}
+
+/// @nodoc
+class __$$AssignCopyWithImpl<$Res> extends _$ASTCopyWithImpl<$Res>
+    implements _$$AssignCopyWith<$Res> {
+  __$$AssignCopyWithImpl(_$Assign _value, $Res Function(_$Assign) _then)
+      : super(_value, (v) => _then(v as _$Assign));
+
+  @override
+  _$Assign get _value => super._value as _$Assign;
+
+  @override
+  $Res call({
+    Object? variable = freezed,
+    Object? value = freezed,
+  }) {
+    return _then(_$Assign(
+      variable == freezed
+          ? _value.variable
+          : variable // ignore: cast_nullable_to_non_nullable
+              as String,
+      value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as AST,
+    ));
+  }
+
+  @override
+  $ASTCopyWith<$Res> get value {
+    return $ASTCopyWith<$Res>(_value.value, (value) {
+      return _then(_value.copyWith(value: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$Assign implements Assign {
+  const _$Assign(this.variable, this.value);
+
+  @override
+  final String variable;
+  @override
+  final AST value;
+
+  @override
+  String toString() {
+    return 'AST.assign(variable: $variable, value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Assign &&
+            const DeepCollectionEquality().equals(other.variable, variable) &&
+            const DeepCollectionEquality().equals(other.value, value));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(variable),
+      const DeepCollectionEquality().hash(value));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$AssignCopyWith<_$Assign> get copyWith =>
+      __$$AssignCopyWithImpl<_$Assign>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(double value) number,
+    required TResult Function(List<AST> operands) add,
+    required TResult Function(List<AST> operands) subtract,
+    required TResult Function(List<AST> operands) multiply,
+    required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
+  }) {
+    return assign(this.variable, value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(double value)? number,
+    TResult Function(List<AST> operands)? add,
+    TResult Function(List<AST> operands)? subtract,
+    TResult Function(List<AST> operands)? multiply,
+    TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
+  }) {
+    return assign?.call(this.variable, value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(double value)? number,
+    TResult Function(List<AST> operands)? add,
+    TResult Function(List<AST> operands)? subtract,
+    TResult Function(List<AST> operands)? multiply,
+    TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
+    required TResult orElse(),
+  }) {
+    if (assign != null) {
+      return assign(this.variable, value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Number value) number,
+    required TResult Function(Add value) add,
+    required TResult Function(Subtract value) subtract,
+    required TResult Function(Multiply value) multiply,
+    required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
+  }) {
+    return assign(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Number value)? number,
+    TResult Function(Add value)? add,
+    TResult Function(Subtract value)? subtract,
+    TResult Function(Multiply value)? multiply,
+    TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
+  }) {
+    return assign?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Number value)? number,
+    TResult Function(Add value)? add,
+    TResult Function(Subtract value)? subtract,
+    TResult Function(Multiply value)? multiply,
+    TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
+    required TResult orElse(),
+  }) {
+    if (assign != null) {
+      return assign(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Assign implements AST {
+  const factory Assign(final String variable, final AST value) = _$Assign;
+
+  String get variable;
+  AST get value;
+  @JsonKey(ignore: true)
+  _$$AssignCopyWith<_$Assign> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$VariableCopyWith<$Res> {
+  factory _$$VariableCopyWith(
+          _$Variable value, $Res Function(_$Variable) then) =
+      __$$VariableCopyWithImpl<$Res>;
+  $Res call({String name});
+}
+
+/// @nodoc
+class __$$VariableCopyWithImpl<$Res> extends _$ASTCopyWithImpl<$Res>
+    implements _$$VariableCopyWith<$Res> {
+  __$$VariableCopyWithImpl(_$Variable _value, $Res Function(_$Variable) _then)
+      : super(_value, (v) => _then(v as _$Variable));
+
+  @override
+  _$Variable get _value => super._value as _$Variable;
+
+  @override
+  $Res call({
+    Object? name = freezed,
+  }) {
+    return _then(_$Variable(
+      name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Variable implements Variable {
+  const _$Variable(this.name);
+
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'AST.variable(name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Variable &&
+            const DeepCollectionEquality().equals(other.name, name));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(name));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$VariableCopyWith<_$Variable> get copyWith =>
+      __$$VariableCopyWithImpl<_$Variable>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(double value) number,
+    required TResult Function(List<AST> operands) add,
+    required TResult Function(List<AST> operands) subtract,
+    required TResult Function(List<AST> operands) multiply,
+    required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
+  }) {
+    return variable(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(double value)? number,
+    TResult Function(List<AST> operands)? add,
+    TResult Function(List<AST> operands)? subtract,
+    TResult Function(List<AST> operands)? multiply,
+    TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
+  }) {
+    return variable?.call(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(double value)? number,
+    TResult Function(List<AST> operands)? add,
+    TResult Function(List<AST> operands)? subtract,
+    TResult Function(List<AST> operands)? multiply,
+    TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
+    required TResult orElse(),
+  }) {
+    if (variable != null) {
+      return variable(name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Number value) number,
+    required TResult Function(Add value) add,
+    required TResult Function(Subtract value) subtract,
+    required TResult Function(Multiply value) multiply,
+    required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
+  }) {
+    return variable(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Number value)? number,
+    TResult Function(Add value)? add,
+    TResult Function(Subtract value)? subtract,
+    TResult Function(Multiply value)? multiply,
+    TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
+  }) {
+    return variable?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Number value)? number,
+    TResult Function(Add value)? add,
+    TResult Function(Subtract value)? subtract,
+    TResult Function(Multiply value)? multiply,
+    TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
+    required TResult orElse(),
+  }) {
+    if (variable != null) {
+      return variable(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Variable implements AST {
+  const factory Variable(final String name) = _$Variable;
+
+  String get name;
+  @JsonKey(ignore: true)
+  _$$VariableCopyWith<_$Variable> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

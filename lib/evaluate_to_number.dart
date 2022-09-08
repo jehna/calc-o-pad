@@ -14,4 +14,10 @@ double evaluateToNumber(AST ast) => ast.when(
     divide: (operands) => operands.sublist(1).fold<double>(
           evaluateToNumber(operands.first),
           (quotient, value) => quotient / evaluateToNumber(value),
-        ));
+        ),
+    assign: (variable, value) {
+      throw "Cannot convert assignment to number";
+    },
+    variable: (name) {
+      throw "Cannot convert variable to number";
+    });

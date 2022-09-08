@@ -8,15 +8,19 @@ class AST with _$AST {
   const factory AST.subtract(List<AST> operands) = Subtract;
   const factory AST.multiply(List<AST> operands) = Multiply;
   const factory AST.divide(List<AST> operands) = Divide;
+  const factory AST.assign(String variable, AST value) = Assign;
+  const factory AST.variable(String name) = Variable;
 }
 
 AST parse(String input) {
   final result = oneOf([
+    parseAssignment,
     parseAdd,
     parseSubtraction,
     parseMultiplication,
     parseDivision,
-    parseNumber
+    parseNumber,
+    parseVariable
   ])(input);
   if (result is Ok<AST>) {
     return result.value;
@@ -124,4 +128,25 @@ Result<AST> parseDivision(String input) {
   }
 
   return Ok(Divide(operands));
+}
+
+Result<AST> parseAssignment(String input) {
+  final match = RegExp(r"^(?<LHS>[^:]+) *: *(?<RHS>.+)").firstMatch(input);
+  if (match == null) {
+    return const None();
+  }
+
+  final lhs = match.namedGroup("LHS")!;
+  final rhs = parse(match.namedGroup("RHS")!);
+
+  return Ok(Assign(lhs, rhs));
+}
+
+Result<AST> parseVariable(String input) {
+  final match = RegExp(r"^ *([a-zA-Z]+) *").firstMatch(input)?.group(1);
+  if (match == null) {
+    return const None();
+  }
+
+  return Ok(Variable(match));
 }
