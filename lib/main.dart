@@ -1,6 +1,4 @@
 import 'package:calc_o_pad/environment.dart';
-import 'package:calc_o_pad/evaluate_to_number.dart';
-import 'package:calc_o_pad/parse.dart';
 import 'package:calc_o_pad/pretty.dart';
 import 'package:calc_o_pad/reduce.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +34,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final textEditController = TextEditingController(text: "1 + 1");
   String _result = "2.0";
-  final String _debug = "";
 
   // rerender on text change
   void _onTextChanged() {
@@ -81,9 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         leadingDistribution:
                             TextLeadingDistribution.proportional),
                   ),
-                  Text('Output: $_result'),
-                  const SizedBox(height: 20),
-                  Text('Debug: $_debug'),
+                  Text(_result),
                 ]))
           ],
         ),
