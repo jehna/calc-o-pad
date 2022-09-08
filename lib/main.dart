@@ -1,5 +1,8 @@
+import 'package:calc_o_pad/environment.dart';
 import 'package:calc_o_pad/evaluate_to_number.dart';
 import 'package:calc_o_pad/parse.dart';
+import 'package:calc_o_pad/pretty.dart';
+import 'package:calc_o_pad/reduce.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final textEditController = TextEditingController(text: "1 + 1");
   String _result = "2.0";
-  String _debug = "";
+  final String _debug = "";
 
   // rerender on text change
   void _onTextChanged() {
@@ -41,10 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         if (textEditController.text.isEmpty) {
           _result = "";
-          _debug = "";
         } else {
-          _debug = parse(textEditController.text).toString();
-          _result = evaluateToNumber(parse(textEditController.text)).toString();
+          final env = Environment.fromString(textEditController.text);
+          _result = prettyPrint(reduce(env));
         }
       } catch (e) {
         // ignore
