@@ -1,4 +1,5 @@
 import 'package:calc_o_pad/environment.dart';
+import 'package:calc_o_pad/parse.dart';
 import 'package:calc_o_pad/pretty.dart';
 import 'package:calc_o_pad/reduce.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final textEditController = TextEditingController(text: "");
   String _result = "";
+  List<String> _autofillHints = [];
 
   // rerender on text change
   void _onTextChanged() {
@@ -41,6 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
           _result = "";
         } else {
           final env = Environment.fromString(textEditController.text);
+          _autofillHints =
+              env.items.whereType<Variable>().map((item) => item.name).toList();
           _result = prettyPrint(reduce(env));
         }
       } catch (e) {
@@ -75,6 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: textEditController,
                       maxLines: null,
                       minLines: 1,
+                      autocorrect: false,
+                      autofillHints: _autofillHints,
+                      autofocus: true,
+                      enableSuggestions: false,
                       style: const TextStyle(
                           leadingDistribution:
                               TextLeadingDistribution.proportional),
