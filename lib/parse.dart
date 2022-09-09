@@ -3,13 +3,15 @@ part 'parse.freezed.dart';
 
 @freezed
 class AST with _$AST {
-  const factory AST.number(double value) = Number;
+  const factory AST.number(double value, [@Default(null) String? type]) =
+      Number;
   const factory AST.add(List<AST> operands) = Add;
   const factory AST.subtract(List<AST> operands) = Subtract;
   const factory AST.multiply(List<AST> operands) = Multiply;
   const factory AST.divide(List<AST> operands) = Divide;
   const factory AST.assign(String variable, AST value) = Assign;
   const factory AST.variable(String name) = Variable;
+  const factory AST.raiseToPower(AST base, AST exponent) = RaiseToPower;
 }
 
 AST parse(String input) {
@@ -19,6 +21,7 @@ AST parse(String input) {
     parseSubtraction,
     parseMultiplication,
     parseDivision,
+    parsePower,
     parseNumber,
     parseVariable
   ])(input);
@@ -50,14 +53,16 @@ Parser oneOf(List<Parser> parsers) {
 }
 
 Result<AST> parseNumber(String input) {
-  final match = RegExp(r"^ *(\d+) *").firstMatch(input)?.group(1);
+  final match =
+      RegExp(r"^ *([0-9 ]+) *(?<type>[a-zA-Z\/€$]+)? *").firstMatch(input);
   if (match == null) {
     return const None();
   }
 
-  final number = double.tryParse(match);
+  final number = double.tryParse(match.group(1)!.replaceAll(" ", ""));
+  final type = match.namedGroup("type");
   if (number != null) {
-    return Ok(Number(number));
+    return Ok(Number(number, type));
   }
   return const None();
 }
@@ -130,8 +135,21 @@ Result<AST> parseDivision(String input) {
   return Ok(Divide(operands));
 }
 
+Result<AST> parsePower(String input) {
+  final match = RegExp(r"^(?<LHS>[^\^]*)\^(?<RHS>.*)").firstMatch(input);
+  if (match == null) {
+    return const None();
+  }
+
+  final lhs = parse(match.namedGroup("LHS")!);
+  final rhs = parse(match.namedGroup("RHS")!);
+
+  return Ok(RaiseToPower(lhs, rhs));
+}
+
 Result<AST> parseAssignment(String input) {
-  final match = RegExp(r"^(?<LHS>[^:]+) *: *(?<RHS>.+)").firstMatch(input);
+  final match =
+      RegExp(r"^(?<LHS>[a-zA-Zäåö ]+) *: *(?<RHS>.+)").firstMatch(input);
   if (match == null) {
     return const None();
   }
@@ -143,7 +161,8 @@ Result<AST> parseAssignment(String input) {
 }
 
 Result<AST> parseVariable(String input) {
-  final match = RegExp(r"^ *([a-zA-Z]+) *").firstMatch(input)?.group(1);
+  final match =
+      RegExp(r"^ *([a-zA-Zäåö ]+(?<! )) *").firstMatch(input)?.group(1);
   if (match == null) {
     return const None();
   }

@@ -17,9 +17,10 @@ Environment _reduceOnce(Environment env) => Environment(env.items
           if (value is Add ||
               value is Subtract ||
               value is Multiply ||
-              value is Divide) {
+              value is Divide ||
+              value is RaiseToPower) {
             try {
-              return Number(evaluateToNumber(value));
+              return evaluateToNumber(value);
             } catch (e) {
               return value;
             }
@@ -52,6 +53,8 @@ AST fold(AST ast, AST Function(AST) f) {
     return Divide(folded.operands.map((operand) => fold(operand, f)).toList());
   } else if (folded is Assign) {
     return Assign(folded.variable, fold(folded.value, f));
+  } else if (folded is RaiseToPower) {
+    return RaiseToPower(fold(folded.base, f), fold(folded.exponent, f));
   } else {
     return folded;
   }

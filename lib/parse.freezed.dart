@@ -18,35 +18,38 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AST {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -59,6 +62,7 @@ mixin _$AST {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -70,6 +74,7 @@ mixin _$AST {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -81,6 +86,7 @@ mixin _$AST {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -105,7 +111,7 @@ class _$ASTCopyWithImpl<$Res> implements $ASTCopyWith<$Res> {
 abstract class _$$NumberCopyWith<$Res> {
   factory _$$NumberCopyWith(_$Number value, $Res Function(_$Number) then) =
       __$$NumberCopyWithImpl<$Res>;
-  $Res call({double value});
+  $Res call({double value, String? type});
 }
 
 /// @nodoc
@@ -120,12 +126,17 @@ class __$$NumberCopyWithImpl<$Res> extends _$ASTCopyWithImpl<$Res>
   @override
   $Res call({
     Object? value = freezed,
+    Object? type = freezed,
   }) {
     return _then(_$Number(
       value == freezed
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
+      type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -133,14 +144,17 @@ class __$$NumberCopyWithImpl<$Res> extends _$ASTCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Number implements Number {
-  const _$Number(this.value);
+  const _$Number(this.value, [this.type = null]);
 
   @override
   final double value;
+  @override
+  @JsonKey()
+  final String? type;
 
   @override
   String toString() {
-    return 'AST.number(value: $value)';
+    return 'AST.number(value: $value, type: $type)';
   }
 
   @override
@@ -148,12 +162,15 @@ class _$Number implements Number {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Number &&
-            const DeepCollectionEquality().equals(other.value, value));
+            const DeepCollectionEquality().equals(other.value, value) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(value));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(value),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -163,45 +180,48 @@ class _$Number implements Number {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) {
-    return number(value);
+    return number(value, type);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) {
-    return number?.call(value);
+    return number?.call(value, type);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) {
     if (number != null) {
-      return number(value);
+      return number(value, type);
     }
     return orElse();
   }
@@ -216,6 +236,7 @@ class _$Number implements Number {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) {
     return number(this);
   }
@@ -230,6 +251,7 @@ class _$Number implements Number {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) {
     return number?.call(this);
   }
@@ -244,6 +266,7 @@ class _$Number implements Number {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) {
     if (number != null) {
@@ -254,9 +277,10 @@ class _$Number implements Number {
 }
 
 abstract class Number implements AST {
-  const factory Number(final double value) = _$Number;
+  const factory Number(final double value, [final String? type]) = _$Number;
 
   double get value;
+  String? get type;
   @JsonKey(ignore: true)
   _$$NumberCopyWith<_$Number> get copyWith =>
       throw _privateConstructorUsedError;
@@ -328,13 +352,14 @@ class _$Add implements Add {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) {
     return add(operands);
   }
@@ -342,13 +367,14 @@ class _$Add implements Add {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) {
     return add?.call(operands);
   }
@@ -356,13 +382,14 @@ class _$Add implements Add {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) {
     if (add != null) {
@@ -381,6 +408,7 @@ class _$Add implements Add {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) {
     return add(this);
   }
@@ -395,6 +423,7 @@ class _$Add implements Add {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) {
     return add?.call(this);
   }
@@ -409,6 +438,7 @@ class _$Add implements Add {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) {
     if (add != null) {
@@ -493,13 +523,14 @@ class _$Subtract implements Subtract {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) {
     return subtract(operands);
   }
@@ -507,13 +538,14 @@ class _$Subtract implements Subtract {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) {
     return subtract?.call(operands);
   }
@@ -521,13 +553,14 @@ class _$Subtract implements Subtract {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) {
     if (subtract != null) {
@@ -546,6 +579,7 @@ class _$Subtract implements Subtract {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) {
     return subtract(this);
   }
@@ -560,6 +594,7 @@ class _$Subtract implements Subtract {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) {
     return subtract?.call(this);
   }
@@ -574,6 +609,7 @@ class _$Subtract implements Subtract {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) {
     if (subtract != null) {
@@ -659,13 +695,14 @@ class _$Multiply implements Multiply {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) {
     return multiply(operands);
   }
@@ -673,13 +710,14 @@ class _$Multiply implements Multiply {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) {
     return multiply?.call(operands);
   }
@@ -687,13 +725,14 @@ class _$Multiply implements Multiply {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) {
     if (multiply != null) {
@@ -712,6 +751,7 @@ class _$Multiply implements Multiply {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) {
     return multiply(this);
   }
@@ -726,6 +766,7 @@ class _$Multiply implements Multiply {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) {
     return multiply?.call(this);
   }
@@ -740,6 +781,7 @@ class _$Multiply implements Multiply {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) {
     if (multiply != null) {
@@ -824,13 +866,14 @@ class _$Divide implements Divide {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) {
     return divide(operands);
   }
@@ -838,13 +881,14 @@ class _$Divide implements Divide {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) {
     return divide?.call(operands);
   }
@@ -852,13 +896,14 @@ class _$Divide implements Divide {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) {
     if (divide != null) {
@@ -877,6 +922,7 @@ class _$Divide implements Divide {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) {
     return divide(this);
   }
@@ -891,6 +937,7 @@ class _$Divide implements Divide {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) {
     return divide?.call(this);
   }
@@ -905,6 +952,7 @@ class _$Divide implements Divide {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) {
     if (divide != null) {
@@ -1004,13 +1052,14 @@ class _$Assign implements Assign {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) {
     return assign(this.variable, value);
   }
@@ -1018,13 +1067,14 @@ class _$Assign implements Assign {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) {
     return assign?.call(this.variable, value);
   }
@@ -1032,13 +1082,14 @@ class _$Assign implements Assign {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) {
     if (assign != null) {
@@ -1057,6 +1108,7 @@ class _$Assign implements Assign {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) {
     return assign(this);
   }
@@ -1071,6 +1123,7 @@ class _$Assign implements Assign {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) {
     return assign?.call(this);
   }
@@ -1085,6 +1138,7 @@ class _$Assign implements Assign {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) {
     if (assign != null) {
@@ -1167,13 +1221,14 @@ class _$Variable implements Variable {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String? type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
     required TResult Function(List<AST> operands) divide,
     required TResult Function(String variable, AST value) assign,
     required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
   }) {
     return variable(name);
   }
@@ -1181,13 +1236,14 @@ class _$Variable implements Variable {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
   }) {
     return variable?.call(name);
   }
@@ -1195,13 +1251,14 @@ class _$Variable implements Variable {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String? type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
     TResult Function(List<AST> operands)? divide,
     TResult Function(String variable, AST value)? assign,
     TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
     required TResult orElse(),
   }) {
     if (variable != null) {
@@ -1220,6 +1277,7 @@ class _$Variable implements Variable {
     required TResult Function(Divide value) divide,
     required TResult Function(Assign value) assign,
     required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
   }) {
     return variable(this);
   }
@@ -1234,6 +1292,7 @@ class _$Variable implements Variable {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
   }) {
     return variable?.call(this);
   }
@@ -1248,6 +1307,7 @@ class _$Variable implements Variable {
     TResult Function(Divide value)? divide,
     TResult Function(Assign value)? assign,
     TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
     required TResult orElse(),
   }) {
     if (variable != null) {
@@ -1263,6 +1323,204 @@ abstract class Variable implements AST {
   String get name;
   @JsonKey(ignore: true)
   _$$VariableCopyWith<_$Variable> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RaiseToPowerCopyWith<$Res> {
+  factory _$$RaiseToPowerCopyWith(
+          _$RaiseToPower value, $Res Function(_$RaiseToPower) then) =
+      __$$RaiseToPowerCopyWithImpl<$Res>;
+  $Res call({AST base, AST exponent});
+
+  $ASTCopyWith<$Res> get base;
+  $ASTCopyWith<$Res> get exponent;
+}
+
+/// @nodoc
+class __$$RaiseToPowerCopyWithImpl<$Res> extends _$ASTCopyWithImpl<$Res>
+    implements _$$RaiseToPowerCopyWith<$Res> {
+  __$$RaiseToPowerCopyWithImpl(
+      _$RaiseToPower _value, $Res Function(_$RaiseToPower) _then)
+      : super(_value, (v) => _then(v as _$RaiseToPower));
+
+  @override
+  _$RaiseToPower get _value => super._value as _$RaiseToPower;
+
+  @override
+  $Res call({
+    Object? base = freezed,
+    Object? exponent = freezed,
+  }) {
+    return _then(_$RaiseToPower(
+      base == freezed
+          ? _value.base
+          : base // ignore: cast_nullable_to_non_nullable
+              as AST,
+      exponent == freezed
+          ? _value.exponent
+          : exponent // ignore: cast_nullable_to_non_nullable
+              as AST,
+    ));
+  }
+
+  @override
+  $ASTCopyWith<$Res> get base {
+    return $ASTCopyWith<$Res>(_value.base, (value) {
+      return _then(_value.copyWith(base: value));
+    });
+  }
+
+  @override
+  $ASTCopyWith<$Res> get exponent {
+    return $ASTCopyWith<$Res>(_value.exponent, (value) {
+      return _then(_value.copyWith(exponent: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$RaiseToPower implements RaiseToPower {
+  const _$RaiseToPower(this.base, this.exponent);
+
+  @override
+  final AST base;
+  @override
+  final AST exponent;
+
+  @override
+  String toString() {
+    return 'AST.raiseToPower(base: $base, exponent: $exponent)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RaiseToPower &&
+            const DeepCollectionEquality().equals(other.base, base) &&
+            const DeepCollectionEquality().equals(other.exponent, exponent));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(base),
+      const DeepCollectionEquality().hash(exponent));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$RaiseToPowerCopyWith<_$RaiseToPower> get copyWith =>
+      __$$RaiseToPowerCopyWithImpl<_$RaiseToPower>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(double value, String? type) number,
+    required TResult Function(List<AST> operands) add,
+    required TResult Function(List<AST> operands) subtract,
+    required TResult Function(List<AST> operands) multiply,
+    required TResult Function(List<AST> operands) divide,
+    required TResult Function(String variable, AST value) assign,
+    required TResult Function(String name) variable,
+    required TResult Function(AST base, AST exponent) raiseToPower,
+  }) {
+    return raiseToPower(base, exponent);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(double value, String? type)? number,
+    TResult Function(List<AST> operands)? add,
+    TResult Function(List<AST> operands)? subtract,
+    TResult Function(List<AST> operands)? multiply,
+    TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
+  }) {
+    return raiseToPower?.call(base, exponent);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(double value, String? type)? number,
+    TResult Function(List<AST> operands)? add,
+    TResult Function(List<AST> operands)? subtract,
+    TResult Function(List<AST> operands)? multiply,
+    TResult Function(List<AST> operands)? divide,
+    TResult Function(String variable, AST value)? assign,
+    TResult Function(String name)? variable,
+    TResult Function(AST base, AST exponent)? raiseToPower,
+    required TResult orElse(),
+  }) {
+    if (raiseToPower != null) {
+      return raiseToPower(base, exponent);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Number value) number,
+    required TResult Function(Add value) add,
+    required TResult Function(Subtract value) subtract,
+    required TResult Function(Multiply value) multiply,
+    required TResult Function(Divide value) divide,
+    required TResult Function(Assign value) assign,
+    required TResult Function(Variable value) variable,
+    required TResult Function(RaiseToPower value) raiseToPower,
+  }) {
+    return raiseToPower(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Number value)? number,
+    TResult Function(Add value)? add,
+    TResult Function(Subtract value)? subtract,
+    TResult Function(Multiply value)? multiply,
+    TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
+  }) {
+    return raiseToPower?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Number value)? number,
+    TResult Function(Add value)? add,
+    TResult Function(Subtract value)? subtract,
+    TResult Function(Multiply value)? multiply,
+    TResult Function(Divide value)? divide,
+    TResult Function(Assign value)? assign,
+    TResult Function(Variable value)? variable,
+    TResult Function(RaiseToPower value)? raiseToPower,
+    required TResult orElse(),
+  }) {
+    if (raiseToPower != null) {
+      return raiseToPower(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RaiseToPower implements AST {
+  const factory RaiseToPower(final AST base, final AST exponent) =
+      _$RaiseToPower;
+
+  AST get base;
+  AST get exponent;
+  @JsonKey(ignore: true)
+  _$$RaiseToPowerCopyWith<_$RaiseToPower> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

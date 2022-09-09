@@ -60,29 +60,22 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(children: [
-                  TextField(
-                    controller: textEditController,
-                    maxLines: 5,
-                    style: const TextStyle(
-                        height: 3,
-                        leadingDistribution:
-                            TextLeadingDistribution.proportional),
-                  ),
-                  Text(_result),
-                ]))
-          ],
-        ),
-      ),
-    );
+        body: Padding(
+            padding: const EdgeInsets.all(20),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              TextField(
+                controller: textEditController,
+                maxLines: 5,
+                style: const TextStyle(
+                    height: 3,
+                    leadingDistribution: TextLeadingDistribution.proportional),
+              ),
+              Text(
+                _result,
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.blue.shade900),
+              ),
+            ])));
   }
 }

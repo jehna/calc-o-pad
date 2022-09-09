@@ -7,7 +7,7 @@ String prettyPrint(Environment env) {
 
 String prettyPrintAST(AST ast) {
   return ast.when(
-    number: ((value) => value.toString()),
+    number: ((value, type) => type != null ? "$value $type" : "$value"),
     add: (operands) =>
         operands.map((operand) => prettyPrintAST(operand)).join(' + '),
     subtract: (operands) =>
@@ -18,5 +18,7 @@ String prettyPrintAST(AST ast) {
         operands.map((operand) => prettyPrintAST(operand)).join(' / '),
     assign: (variable, value) => '$variable: ${prettyPrintAST(value)}',
     variable: (name) => name,
+    raiseToPower: (base, exponent) =>
+        '${prettyPrintAST(base)} ^ ${prettyPrintAST(exponent)}',
   );
 }
