@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Calc-O-Pad',
       theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Roboto'),
       home: const MyHomePage(title: 'Calc-O-Pad'),
     );
