@@ -30,8 +30,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final textEditController = TextEditingController(text: "1 + 1");
-  String _result = "2.0";
+  final textEditController = TextEditingController(text: "");
+  String _result = "";
 
   // rerender on text change
   void _onTextChanged() {
