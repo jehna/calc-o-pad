@@ -53,13 +53,14 @@ Parser oneOf(List<Parser> parsers) {
 }
 
 Result<AST> parseNumber(String input) {
-  final match =
-      RegExp(r"^ *([0-9 ]+) *(?<type>[a-zA-Z\/€$]+)? *").firstMatch(input);
+  final match = RegExp(r"^ *([0-9 ]+([,.]\d+)?) *(?<type>[a-zA-Z\/€$]+)? *")
+      .firstMatch(input);
   if (match == null) {
     return const None();
   }
 
-  final number = double.tryParse(match.group(1)!.replaceAll(" ", ""));
+  final number =
+      double.tryParse(match.group(1)!.replaceAll(" ", "").replaceAll(",", "."));
   final type = match.namedGroup("type");
   if (number != null) {
     return Ok(Number(number, type));

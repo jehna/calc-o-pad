@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: const MyHomePage(title: 'Calc-O-Pad'),
     );
   }
@@ -62,20 +60,34 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         body: Padding(
             padding: const EdgeInsets.all(20),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              TextField(
-                controller: textEditController,
-                maxLines: 5,
-                style: const TextStyle(
-                    height: 3,
-                    leadingDistribution: TextLeadingDistribution.proportional),
-              ),
-              Text(
-                _result,
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Colors.blue.shade900),
-              ),
-            ])));
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const TextField(
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 22),
+                      decoration: InputDecoration(
+                        hintText: "Title",
+                        border: InputBorder.none,
+                      )),
+                  TextField(
+                      controller: textEditController,
+                      maxLines: null,
+                      minLines: 1,
+                      style: const TextStyle(
+                          leadingDistribution:
+                              TextLeadingDistribution.proportional),
+                      decoration: const InputDecoration(
+                          hintText: "Calculations",
+                          border: InputBorder.none,
+                          isDense: true)),
+                  const SizedBox(height: 5),
+                  Text(
+                    _result,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(color: Colors.blueAccent),
+                  ),
+                ])));
   }
 }

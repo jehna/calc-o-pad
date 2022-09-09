@@ -7,7 +7,11 @@ String prettyPrint(Environment env) {
 
 String prettyPrintAST(AST ast) {
   return ast.when(
-    number: ((value, type) => type != null ? "$value $type" : "$value"),
+    number: ((value, type) {
+      final formatted =
+          value.toStringAsFixed(4).replaceAll(RegExp(r'\.?0*$'), '');
+      return type != null ? "$formatted $type" : formatted;
+    }),
     add: (operands) =>
         operands.map((operand) => prettyPrintAST(operand)).join(' + '),
     subtract: (operands) =>
