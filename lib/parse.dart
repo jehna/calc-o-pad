@@ -163,7 +163,7 @@ Result<AST> parseAssignment(String input) {
 
 Result<AST> parseVariable(String input) {
   final match =
-      RegExp(r"^ *([a-zA-Zäåö ]+(?<! )) *").firstMatch(input)?.group(1);
+      RegExp(r"^ *([a-zA-Zäåö ]*[a-zA-Zäåö]+) *").firstMatch(input)?.group(1);
   if (match == null) {
     return const None();
   }
