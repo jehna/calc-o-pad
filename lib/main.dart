@@ -1,7 +1,9 @@
 import 'package:calc_o_pad/environment.dart';
+import 'package:calc_o_pad/firebase.dart';
 import 'package:calc_o_pad/parse.dart';
 import 'package:calc_o_pad/pretty.dart';
 import 'package:calc_o_pad/reduce.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final textEditController = TextEditingController(text: "");
   String _result = "";
   List<String> _autofillHints = [];
+  late DocumentReference<Map<String, dynamic>>? _doc;
 
   // rerender on text change
   void _onTextChanged() {
@@ -46,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _autofillHints =
               env.items.whereType<Variable>().map((item) => item.name).toList();
           _result = prettyPrint(reduce(env));
+          _doc?.set({'text': textEditController.text});
         }
       } catch (e) {
         // ignore
@@ -57,6 +61,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     textEditController.addListener(_onTextChanged);
+    _loadContent();
+  }
+
+  Future _loadContent() async {
+    _doc = await getDocument();
+    final data = await _doc!.get();
+    if (data.exists) {
+      textEditController.text = data.data()!['text'];
+    }
   }
 
   @override
