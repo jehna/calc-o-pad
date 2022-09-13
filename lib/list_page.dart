@@ -1,4 +1,5 @@
 import 'package:calc_o_pad/firebase.dart';
+import 'package:calc_o_pad/main.dart';
 import 'package:calc_o_pad/note_page.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +10,29 @@ class ListPage extends StatefulWidget {
   State<ListPage> createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage> {
+class _ListPageState extends State<ListPage> with RouteAware {
   List<Note> notes = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
 
   @override
   void initState() {
     super.initState();
+    _loadContent();
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
     _loadContent();
   }
 
@@ -26,15 +44,13 @@ class _ListPageState extends State<ListPage> {
   }
 
   void _openNew() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(
-            builder: (context) => NotePage(
-                  note: Note(
-                      id: DateTime.now().millisecondsSinceEpoch.toString(),
-                      title: "",
-                      text: ""),
-                )))
-        .then((v) => _loadContent());
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => NotePage(
+              note: Note(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  title: "",
+                  text: ""),
+            )));
   }
 
   @override
@@ -49,10 +65,8 @@ class _ListPageState extends State<ListPage> {
               .map(
                 (note) => ListTile(
                   onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) => NotePage(note: note)))
-                        .then((v) => _loadContent());
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => NotePage(note: note)));
                   },
                   title: Text(note.title.isEmpty ? "Untitled" : note.title),
                 ),

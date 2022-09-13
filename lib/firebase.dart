@@ -14,6 +14,8 @@ class Note {
     required this.text,
   });
 
+  bool get isEmpty => title.isEmpty && text.isEmpty;
+
   factory Note.fromDocument(String id, Map<String, dynamic> doc) {
     return Note(
       id: id,

@@ -20,10 +20,21 @@ class _NotePageState extends State<NotePage> {
   String _result = "";
   List<String> _autofillHints = [];
   late DocumentReference<Map<String, dynamic>>? _doc;
+  bool hasInitialised = false;
 
   Future _setDoc(String documentId) async {
     _doc = await getDocumentReference(documentId);
-    _doc!.set({"text": "", "title": ""});
+  }
+
+  Future _update(Map<String, String> values) async {
+    if (_doc == null) {
+      return;
+    }
+    if (!hasInitialised && widget.note.isEmpty) {
+      await _doc!.set({"text": "", "title": ""});
+      hasInitialised = true;
+    }
+    await _doc!.update(values);
   }
 
   void _onTextChanged() {
@@ -36,7 +47,7 @@ class _NotePageState extends State<NotePage> {
           _autofillHints =
               env.items.whereType<Variable>().map((item) => item.name).toList();
           _result = prettyPrint(reduce(env));
-          _doc?.update({'text': textEditController.text});
+          _update({'text': textEditController.text});
         }
       } catch (e) {
         // ignore
@@ -45,7 +56,31 @@ class _NotePageState extends State<NotePage> {
   }
 
   void _onTitleChanged() {
-    _doc?.update({'title': titleController.text});
+    _update({'title': titleController.text});
+  }
+
+  Future _delete() async {
+    // show modal to ensure user wants to delete
+    final result = await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Delete note?"),
+              content: const Text("This action cannot be undone."),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: const Text("Cancel")),
+                TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text("Delete",
+                        style: TextStyle(color: Colors.red))),
+              ],
+            ));
+    if (result != true) return;
+
+    await _doc!.delete();
+    if (!mounted) return;
+    Navigator.of(context).pop();
   }
 
   @override
@@ -69,6 +104,12 @@ class _NotePageState extends State<NotePage> {
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: _delete,
+            )
+          ],
         ),
         body: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
