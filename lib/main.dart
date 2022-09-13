@@ -1,4 +1,4 @@
-import 'package:calc_o_pad/note_page.dart';
+import 'package:calc_o_pad/list_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,9 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Calc-O-Pad',
-      theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Roboto'),
-      home: const NotePage(title: 'Calc-O-Pad'),
-    );
+        title: 'Calc-O-Pad',
+        theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Roboto'),
+        home: const ListPage());
   }
 }
