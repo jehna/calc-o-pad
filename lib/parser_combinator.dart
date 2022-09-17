@@ -113,11 +113,15 @@ Parser<String> letter = (input) => input.isNotEmpty && isLetter(input[0])
     ? Success(input[0], input.substring(1))
     : const Failure<String>();
 
-// Variable is a letter followed by zero or more letters or digits
+Parser<String> variableWord = repeat(oneOf([letter, digit]));
+
 Parser<VariableToken> variable = map(
     trim(join([
-      letter,
-      maybeString(repeat(oneOf([letter, digit])))
+      variableWord,
+      maybeString(join([
+        whitespace,
+        repeat(variableWord),
+      ])),
     ])),
     (String value, rest) => Success(VariableToken(value), rest));
 

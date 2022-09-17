@@ -16,4 +16,11 @@ void main() {
   test("reduces variable values with simple math to single numbers", () {
     expect(reduce(env("x: 1 + 2\ny: 3 + 4\nx + y")), env("x: 3\ny: 7\n10"));
   });
+
+  test("reduces variables with obscure names", () {
+    expect(
+        reduce(
+            env("päivää: 1 + 2\nMörri Möykky: 3 + 4\nMörri Möykky + päivää")),
+        env("päivää: 3\nMörri Möykky: 7\n10"));
+  });
 }
