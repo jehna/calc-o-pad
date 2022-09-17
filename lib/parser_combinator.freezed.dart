@@ -323,7 +323,7 @@ abstract class Failure<T> implements Result<T> {
 mixin _$Token {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -337,7 +337,7 @@ mixin _$Token {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -351,7 +351,7 @@ mixin _$Token {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -429,7 +429,7 @@ abstract class _$$NumberTokenCopyWith<$Res> {
   factory _$$NumberTokenCopyWith(
           _$NumberToken value, $Res Function(_$NumberToken) then) =
       __$$NumberTokenCopyWithImpl<$Res>;
-  $Res call({double value});
+  $Res call({double value, String type});
 }
 
 /// @nodoc
@@ -445,12 +445,17 @@ class __$$NumberTokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
   @override
   $Res call({
     Object? value = freezed,
+    Object? type = freezed,
   }) {
     return _then(_$NumberToken(
       value == freezed
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
+      type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -458,14 +463,17 @@ class __$$NumberTokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
 /// @nodoc
 
 class _$NumberToken implements NumberToken {
-  const _$NumberToken(this.value);
+  const _$NumberToken(this.value, [this.type = ""]);
 
   @override
   final double value;
+  @override
+  @JsonKey()
+  final String type;
 
   @override
   String toString() {
-    return 'Token.number(value: $value)';
+    return 'Token.number(value: $value, type: $type)';
   }
 
   @override
@@ -473,12 +481,15 @@ class _$NumberToken implements NumberToken {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NumberToken &&
-            const DeepCollectionEquality().equals(other.value, value));
+            const DeepCollectionEquality().equals(other.value, value) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(value));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(value),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -488,7 +499,7 @@ class _$NumberToken implements NumberToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -499,13 +510,13 @@ class _$NumberToken implements NumberToken {
     required TResult Function(String name) variable,
     required TResult Function() assignment,
   }) {
-    return number(value);
+    return number(value, type);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -516,13 +527,13 @@ class _$NumberToken implements NumberToken {
     TResult Function(String name)? variable,
     TResult Function()? assignment,
   }) {
-    return number?.call(value);
+    return number?.call(value, type);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -535,7 +546,7 @@ class _$NumberToken implements NumberToken {
     required TResult orElse(),
   }) {
     if (number != null) {
-      return number(value);
+      return number(value, type);
     }
     return orElse();
   }
@@ -597,9 +608,11 @@ class _$NumberToken implements NumberToken {
 }
 
 abstract class NumberToken implements Token {
-  const factory NumberToken(final double value) = _$NumberToken;
+  const factory NumberToken(final double value, [final String type]) =
+      _$NumberToken;
 
   double get value;
+  String get type;
   @JsonKey(ignore: true)
   _$$NumberTokenCopyWith<_$NumberToken> get copyWith =>
       throw _privateConstructorUsedError;
@@ -645,7 +658,7 @@ class _$PlusToken implements PlusToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -662,7 +675,7 @@ class _$PlusToken implements PlusToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -679,7 +692,7 @@ class _$PlusToken implements PlusToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -797,7 +810,7 @@ class _$MinusToken implements MinusToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -814,7 +827,7 @@ class _$MinusToken implements MinusToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -831,7 +844,7 @@ class _$MinusToken implements MinusToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -949,7 +962,7 @@ class _$MultiplyToken implements MultiplyToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -966,7 +979,7 @@ class _$MultiplyToken implements MultiplyToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -983,7 +996,7 @@ class _$MultiplyToken implements MultiplyToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1101,7 +1114,7 @@ class _$DivideToken implements DivideToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -1118,7 +1131,7 @@ class _$DivideToken implements DivideToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1135,7 +1148,7 @@ class _$DivideToken implements DivideToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1254,7 +1267,7 @@ class _$LeftParenthesisToken implements LeftParenthesisToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -1271,7 +1284,7 @@ class _$LeftParenthesisToken implements LeftParenthesisToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1288,7 +1301,7 @@ class _$LeftParenthesisToken implements LeftParenthesisToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1407,7 +1420,7 @@ class _$RightParenthesisToken implements RightParenthesisToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -1424,7 +1437,7 @@ class _$RightParenthesisToken implements RightParenthesisToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1441,7 +1454,7 @@ class _$RightParenthesisToken implements RightParenthesisToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1559,7 +1572,7 @@ class _$PowerToken implements PowerToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -1576,7 +1589,7 @@ class _$PowerToken implements PowerToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1593,7 +1606,7 @@ class _$PowerToken implements PowerToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1735,7 +1748,7 @@ class _$VariableToken implements VariableToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -1752,7 +1765,7 @@ class _$VariableToken implements VariableToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1769,7 +1782,7 @@ class _$VariableToken implements VariableToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1892,7 +1905,7 @@ class _$AssignmentToken implements AssignmentToken {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value) number,
+    required TResult Function(double value, String type) number,
     required TResult Function() plus,
     required TResult Function() minus,
     required TResult Function() multiply,
@@ -1909,7 +1922,7 @@ class _$AssignmentToken implements AssignmentToken {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,
@@ -1926,7 +1939,7 @@ class _$AssignmentToken implements AssignmentToken {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value)? number,
+    TResult Function(double value, String type)? number,
     TResult Function()? plus,
     TResult Function()? minus,
     TResult Function()? multiply,

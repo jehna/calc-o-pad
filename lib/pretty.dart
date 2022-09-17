@@ -10,7 +10,7 @@ String prettyPrintAST(AST ast) {
     number: ((value, type) {
       final formatted =
           value.toStringAsFixed(4).replaceAll(RegExp(r'\.?0*$'), '');
-      return type != null ? "$formatted $type" : formatted;
+      return type != "" ? "$formatted $type" : formatted;
     }),
     add: (operands) =>
         operands.map((operand) => prettyPrintAST(operand)).join(' + '),

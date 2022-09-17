@@ -8,6 +8,10 @@ void main() {
     expect(parseTokens("12.345"),
         const Success<List<Token>>([NumberToken(12.345)], ""));
   });
+  test("Should parse number with type", () {
+    expect(parseTokens("10 ponies"),
+        const Success<List<Token>>([NumberToken(10, "ponies")], ""));
+  });
 
   test('Should parse simple arithmetic', () {
     expect(

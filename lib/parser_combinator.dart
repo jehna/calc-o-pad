@@ -9,7 +9,8 @@ class Result<T> with _$Result {
 
 @freezed
 class Token with _$Token {
-  const factory Token.number(double value) = NumberToken;
+  const factory Token.number(double value, [@Default("") String type]) =
+      NumberToken;
   const factory Token.plus() = PlusToken;
   const factory Token.minus() = MinusToken;
   const factory Token.multiply() = MultiplyToken;
@@ -133,11 +134,13 @@ Parser<NumberToken> number = map(
       oneOf([char("."), to(char(","), ".")]),
       repeat(digit)
     ])),
+    maybeString(join([maybeString(char(' ')), repeat(letter)])),
   ])),
-  (String value, String rest) {
-    final numValue = double.tryParse(value);
+  (String numberTypeString, String rest) {
+    final numberType = numberTypeString.split(' ').skip(1).join("");
+    final numValue = double.tryParse(numberTypeString.split(' ').first);
     return numValue != null
-        ? Success(NumberToken(numValue), rest)
+        ? Success(NumberToken(numValue, numberType), rest)
         : const Failure();
   },
 );

@@ -4,8 +4,7 @@ part 'parse.freezed.dart';
 
 @freezed
 class AST with _$AST {
-  const factory AST.number(double value, [@Default(null) String? type]) =
-      Number;
+  const factory AST.number(double value, [@Default("") String type]) = Number;
   const factory AST.add(List<AST> operands) = Add;
   const factory AST.subtract(List<AST> operands) = Subtract;
   const factory AST.multiply(List<AST> operands) = Multiply;
@@ -107,7 +106,7 @@ AST shuntingYardToAst(List<Token> tokens) {
   List<AST> stack = [];
   for (final token in tokens) {
     if (token is NumberToken) {
-      stack.add(AST.number(token.value));
+      stack.add(AST.number(token.value, token.type));
     } else if (token is VariableToken) {
       stack.add(AST.variable(token.name));
     } else if (isOperator(token)) {
@@ -120,7 +119,7 @@ AST shuntingYardToAst(List<Token> tokens) {
         minus: () => AST.subtract(operands),
         leftParenthesis: () => throw Exception("Unexpected left parenthesis"),
         rightParenthesis: () => throw Exception("Unexpected right parenthesis"),
-        number: (value) => throw Exception("Unexpected number"),
+        number: (value, type) => throw Exception("Unexpected number"),
         variable: (name) => throw Exception("Unexpected variable"),
         assignment: () {
           final variable = operands[0];
@@ -136,7 +135,7 @@ AST shuntingYardToAst(List<Token> tokens) {
 }
 
 bool isOperator(Token token) => token.when(
-    number: (value) => false,
+    number: (value, type) => false,
     variable: (name) => false,
     plus: () => true,
     minus: () => true,
@@ -148,7 +147,7 @@ bool isOperator(Token token) => token.when(
     assignment: () => true);
 
 int precedence(Token token) => token.when(
-    number: (value) => 0,
+    number: (value, type) => 0,
     variable: (name) => 0,
     assignment: () => 1,
     plus: () => 2,
@@ -160,7 +159,7 @@ int precedence(Token token) => token.when(
     power: () => 5);
 
 bool isLeftAssociative(Token token) => token.when(
-    number: (value) => false,
+    number: (value, type) => false,
     variable: (name) => false,
     assignment: () => true,
     plus: () => true,

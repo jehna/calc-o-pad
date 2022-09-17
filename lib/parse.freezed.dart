@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AST {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -30,7 +30,7 @@ mixin _$AST {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -42,7 +42,7 @@ mixin _$AST {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -111,7 +111,7 @@ class _$ASTCopyWithImpl<$Res> implements $ASTCopyWith<$Res> {
 abstract class _$$NumberCopyWith<$Res> {
   factory _$$NumberCopyWith(_$Number value, $Res Function(_$Number) then) =
       __$$NumberCopyWithImpl<$Res>;
-  $Res call({double value, String? type});
+  $Res call({double value, String type});
 }
 
 /// @nodoc
@@ -136,7 +136,7 @@ class __$$NumberCopyWithImpl<$Res> extends _$ASTCopyWithImpl<$Res>
       type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -144,13 +144,13 @@ class __$$NumberCopyWithImpl<$Res> extends _$ASTCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Number implements Number {
-  const _$Number(this.value, [this.type = null]);
+  const _$Number(this.value, [this.type = ""]);
 
   @override
   final double value;
   @override
   @JsonKey()
-  final String? type;
+  final String type;
 
   @override
   String toString() {
@@ -180,7 +180,7 @@ class _$Number implements Number {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -195,7 +195,7 @@ class _$Number implements Number {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -210,7 +210,7 @@ class _$Number implements Number {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -277,10 +277,10 @@ class _$Number implements Number {
 }
 
 abstract class Number implements AST {
-  const factory Number(final double value, [final String? type]) = _$Number;
+  const factory Number(final double value, [final String type]) = _$Number;
 
   double get value;
-  String? get type;
+  String get type;
   @JsonKey(ignore: true)
   _$$NumberCopyWith<_$Number> get copyWith =>
       throw _privateConstructorUsedError;
@@ -352,7 +352,7 @@ class _$Add implements Add {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -367,7 +367,7 @@ class _$Add implements Add {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -382,7 +382,7 @@ class _$Add implements Add {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -523,7 +523,7 @@ class _$Subtract implements Subtract {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -538,7 +538,7 @@ class _$Subtract implements Subtract {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -553,7 +553,7 @@ class _$Subtract implements Subtract {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -695,7 +695,7 @@ class _$Multiply implements Multiply {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -710,7 +710,7 @@ class _$Multiply implements Multiply {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -725,7 +725,7 @@ class _$Multiply implements Multiply {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -866,7 +866,7 @@ class _$Divide implements Divide {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -881,7 +881,7 @@ class _$Divide implements Divide {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -896,7 +896,7 @@ class _$Divide implements Divide {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -1052,7 +1052,7 @@ class _$Assign implements Assign {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -1067,7 +1067,7 @@ class _$Assign implements Assign {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -1082,7 +1082,7 @@ class _$Assign implements Assign {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -1221,7 +1221,7 @@ class _$Variable implements Variable {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -1236,7 +1236,7 @@ class _$Variable implements Variable {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -1251,7 +1251,7 @@ class _$Variable implements Variable {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -1417,7 +1417,7 @@ class _$RaiseToPower implements RaiseToPower {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(double value, String? type) number,
+    required TResult Function(double value, String type) number,
     required TResult Function(List<AST> operands) add,
     required TResult Function(List<AST> operands) subtract,
     required TResult Function(List<AST> operands) multiply,
@@ -1432,7 +1432,7 @@ class _$RaiseToPower implements RaiseToPower {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
@@ -1447,7 +1447,7 @@ class _$RaiseToPower implements RaiseToPower {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(double value, String? type)? number,
+    TResult Function(double value, String type)? number,
     TResult Function(List<AST> operands)? add,
     TResult Function(List<AST> operands)? subtract,
     TResult Function(List<AST> operands)? multiply,
