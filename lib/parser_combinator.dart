@@ -28,7 +28,8 @@ Parser<List<Token>> parseTokens = oneOf([assignment, expression]);
 
 Parser<List<Token>> assignment = combine([
   lift(variable),
-  lift(to(trim(char(":")), const Token.assignment())),
+  lift(to(trim(oneOf([char(":"), char("has"), char("is")])),
+      const Token.assignment())),
   expression
 ]);
 
