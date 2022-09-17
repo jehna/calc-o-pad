@@ -105,15 +105,31 @@ Parser<U> map<T, U>(
   };
 }
 
-bool isLetter(String char) {
-  // Letter is upper- or lowercase letter, including upper- and lowercase latin extended characters
-  return RegExp(r'^[a-zA-Z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF]')
-      .hasMatch(char);
-}
+Parser<String> letter = not(oneOf([
+  whitespace,
+  digit,
+  char("+"),
+  char("-"),
+  char("*"),
+  char("/"),
+  char("^"),
+  char("("),
+  char(")"),
+  char(":"),
+  char("."),
+  char(","),
+]));
 
-Parser<String> letter = (input) => input.isNotEmpty && isLetter(input[0])
-    ? Success(input[0], input.substring(1))
-    : const Failure<String>();
+Parser<String> not(Parser<String> parser) {
+  return (input) {
+    if (input.isEmpty) return const Failure();
+    final result = parser(input);
+    return result.when(
+      success: (value, rest) => const Failure(),
+      failure: () => Success(input.substring(0, 1), input.substring(1)),
+    );
+  };
+}
 
 Parser<String> variableWord = repeat(oneOf([letter, digit]));
 
