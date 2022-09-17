@@ -9,7 +9,7 @@ void main() {
     expect(reduce(env("1 + 2")), env("3"));
   });
 
-  test("reduces variable values with simple math to single numbers", () {
+  test("reduces variable value with simple math to single number", () {
     expect(reduce(env("x: 1 + 2")), env("x: 3"));
   });
 

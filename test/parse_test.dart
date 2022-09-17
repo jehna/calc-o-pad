@@ -8,7 +8,11 @@ void main() {
 
   test("parses simple subtraction with three numbers", () {
     expect(
-        parse("5 - 2 - 1"), const Subtract([Number(5), Number(2), Number(1)]));
+        parse("5 - 2 - 1"),
+        const Subtract([
+          Subtract([Number(5.0), Number(2.0)]),
+          Number(1.0)
+        ]));
   });
 
   test("assigns to a variable", () {

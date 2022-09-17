@@ -1,3 +1,4 @@
+import 'package:calc_o_pad/parser_combinator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'parse.freezed.dart';
 
@@ -15,158 +16,157 @@ class AST with _$AST {
 }
 
 AST parse(String input) {
-  final result = oneOf([
-    parseAssignment,
-    parseAdd,
-    parseSubtraction,
-    parseMultiplication,
-    parseDivision,
-    parsePower,
-    parseNumber,
-    parseVariable
-  ])(input);
-  if (result is Ok<AST>) {
-    return result.value;
-  } else {
-    throw "Failed to parse";
-  }
-}
-
-@freezed
-class Result<T> with _$Result {
-  const factory Result.ok(T value) = Ok;
-  const factory Result.none() = None;
-}
-
-typedef Parser = Result<AST> Function(String input);
-
-Parser oneOf(List<Parser> parsers) {
-  return (input) {
-    for (final parser in parsers) {
-      final result = parser(input);
-      if (result is Ok) {
-        return result;
+  final result = parseTokens(input);
+  return result.when(
+    success: (tokens, rest) {
+      if (rest.isNotEmpty) {
+        throw Exception("Failed to parse: $rest");
       }
+      return shuntingYardToAst(shuntingYardAlgorithm(tokens));
+    },
+    failure: () => throw Exception("Failed to parse: $input"),
+  );
+}
+
+List<Token> shuntingYardAlgorithm(List<Token> tokens) {
+  /*while there are tokens to be read:
+    read a token
+    if the token is:
+    - a number:
+        put it into the output queue
+    - a function:
+        push it onto the operator stack
+    - an operator o1:
+        while (
+            there is an operator o2 other than the left parenthesis at the top
+            of the operator stack, and (o2 has greater precedence than o1
+            or they have the same precedence and o1 is left-associative)
+        ):
+            pop o2 from the operator stack into the output queue
+        push o1 onto the operator stack
+    - a left parenthesis (i.e. "("):
+        push it onto the operator stack
+    - a right parenthesis (i.e. ")"):
+        while the operator at the top of the operator stack is not a left parenthesis:
+            {assert the operator stack is not empty}
+            /* If the stack runs out without finding a left parenthesis, then there are mismatched parentheses. */
+            pop the operator from the operator stack into the output queue
+        {assert there is a left parenthesis at the top of the operator stack}
+        pop the left parenthesis from the operator stack and discard it
+        if there is a function token at the top of the operator stack, then:
+            pop the function from the operator stack into the output queue
+/* After the while loop, pop the remaining items from the operator stack into the output queue. */
+while there are tokens on the operator stack:
+    /* If the operator token on the top of the stack is a parenthesis, then there are mismatched parentheses. */
+    {assert the operator on top of the stack is not a (left) parenthesis}
+    pop the operator from the operator stack onto the output queue
+    */
+
+  List<Token> outputQueue = [];
+  List<Token> operatorStack = [];
+
+  for (final token in tokens) {
+    if (token is NumberToken) {
+      outputQueue.add(token);
+    } else if (token is VariableToken) {
+      outputQueue.add(token);
+    } else if (isOperator(token)) {
+      while (operatorStack.isNotEmpty &&
+          operatorStack.last is! LeftParenthesisToken &&
+          (precedence(operatorStack.last) > precedence(token) ||
+              (precedence(operatorStack.last) == precedence(token) &&
+                  isLeftAssociative(token)))) {
+        outputQueue.add(operatorStack.removeLast());
+      }
+      operatorStack.add(token);
+    } else if (token is LeftParenthesisToken) {
+      operatorStack.add(token);
+    } else if (token is RightParenthesisToken) {
+      while (operatorStack.isNotEmpty &&
+          operatorStack.last is! LeftParenthesisToken) {
+        assert(operatorStack.isNotEmpty, "Mismatched parentheses");
+        outputQueue.add(operatorStack.removeLast());
+      }
+      assert(
+          operatorStack.isNotEmpty &&
+              operatorStack.last is LeftParenthesisToken,
+          "Mismatched parentheses");
+      operatorStack.removeLast();
     }
-    return const None();
-  };
+  }
+  while (operatorStack.isNotEmpty) {
+    assert(
+        operatorStack.last is! LeftParenthesisToken, "Mismatched parentheses");
+    outputQueue.add(operatorStack.removeLast());
+  }
+
+  return outputQueue;
 }
 
-Result<AST> parseNumber(String input) {
-  final match = RegExp(r"^ *([0-9 ]+([,.]\d+)?) *(?<type>[a-zA-Z\/€$]+)? *")
-      .firstMatch(input);
-  if (match == null) {
-    return const None();
+AST shuntingYardToAst(List<Token> tokens) {
+  List<AST> stack = [];
+  for (final token in tokens) {
+    if (token is NumberToken) {
+      stack.add(AST.number(token.value));
+    } else if (token is VariableToken) {
+      stack.add(AST.variable(token.name));
+    } else if (isOperator(token)) {
+      final operands = stack.sublist(stack.length - 2);
+      stack.removeRange(stack.length - 2, stack.length);
+      final operation = token.when(
+        divide: () => AST.divide(operands),
+        multiply: () => AST.multiply(operands),
+        plus: () => AST.add(operands),
+        minus: () => AST.subtract(operands),
+        leftParenthesis: () => throw Exception("Unexpected left parenthesis"),
+        rightParenthesis: () => throw Exception("Unexpected right parenthesis"),
+        number: (value) => throw Exception("Unexpected number"),
+        variable: (name) => throw Exception("Unexpected variable"),
+        assignment: () {
+          final variable = operands[0];
+          if (variable is! Variable) throw Exception("Expected variable");
+          return AST.assign(variable.name, operands[1]);
+        },
+        power: () => AST.raiseToPower(operands[0], operands[1]),
+      );
+      stack.add(operation);
+    }
   }
-
-  final number =
-      double.tryParse(match.group(1)!.replaceAll(" ", "").replaceAll(",", "."));
-  final type = match.namedGroup("type");
-  if (number != null) {
-    return Ok(Number(number, type));
-  }
-  return const None();
+  return stack.first;
 }
 
-Result<AST> parseAdd(String input) {
-  final match = RegExp(r"^(?<LHS>[^+]+)?\+(?<RHS>.*)").firstMatch(input);
-  if (match == null) {
-    return const None();
-  }
+bool isOperator(Token token) => token.when(
+    number: (value) => false,
+    variable: (name) => false,
+    plus: () => true,
+    minus: () => true,
+    multiply: () => true,
+    divide: () => true,
+    leftParenthesis: () => false,
+    rightParenthesis: () => false,
+    power: () => true,
+    assignment: () => true);
 
-  final lhs = match.namedGroup("LHS");
-  final rhs = match.namedGroup("RHS")!;
+int precedence(Token token) => token.when(
+    number: (value) => 0,
+    variable: (name) => 0,
+    assignment: () => 1,
+    plus: () => 2,
+    minus: () => 2,
+    multiply: () => 3,
+    divide: () => 3,
+    leftParenthesis: () => 4,
+    rightParenthesis: () => 4,
+    power: () => 5);
 
-  return Ok(Add(lhs != null ? [parse(lhs), parse(rhs)] : [parse(rhs)]));
-}
-
-Result<AST> parseSubtraction(String input) {
-  final match = RegExp(r"^(?<LHS>[^-]+)?\-(?<RHS>.*)").firstMatch(input);
-  if (match == null) {
-    return const None();
-  }
-
-  final lhs = match.namedGroup("LHS");
-  final rhs = match.namedGroup("RHS")!;
-  final rhsParsed = parse(rhs);
-  final List<AST> operands = [];
-  if (lhs != null) {
-    operands.add(parse(lhs));
-  } else {
-    // Implicit zero
-    operands.add(const Number(0));
-  }
-
-  if (rhsParsed is Subtract) {
-    operands.addAll(rhsParsed.operands);
-  } else {
-    operands.add(rhsParsed);
-  }
-
-  return Ok(Subtract(operands));
-}
-
-Result<AST> parseMultiplication(String input) {
-  final match = RegExp(r"^(?<LHS>[^*]*)\*(?<RHS>.*)").firstMatch(input);
-  if (match == null) {
-    return const None();
-  }
-
-  final lhs = parse(match.namedGroup("LHS")!);
-  final rhs = parse(match.namedGroup("RHS")!);
-  return Ok(Multiply([lhs, rhs]));
-}
-
-Result<AST> parseDivision(String input) {
-  final match = RegExp(r"^(?<LHS>[^/]*)\/(?<RHS>.*)").firstMatch(input);
-  if (match == null) {
-    return const None();
-  }
-
-  final lhs = parse(match.namedGroup("LHS")!);
-  final rhs = parse(match.namedGroup("RHS")!);
-
-  final operands = [lhs];
-  if (rhs is Divide) {
-    operands.addAll(rhs.operands);
-  } else {
-    operands.add(rhs);
-  }
-
-  return Ok(Divide(operands));
-}
-
-Result<AST> parsePower(String input) {
-  final match = RegExp(r"^(?<LHS>[^\^]*)\^(?<RHS>.*)").firstMatch(input);
-  if (match == null) {
-    return const None();
-  }
-
-  final lhs = parse(match.namedGroup("LHS")!);
-  final rhs = parse(match.namedGroup("RHS")!);
-
-  return Ok(RaiseToPower(lhs, rhs));
-}
-
-Result<AST> parseAssignment(String input) {
-  final match =
-      RegExp(r"^(?<LHS>[a-zA-Zäåö ]+) *: *(?<RHS>.+)").firstMatch(input);
-  if (match == null) {
-    return const None();
-  }
-
-  final lhs = match.namedGroup("LHS")!;
-  final rhs = parse(match.namedGroup("RHS")!);
-
-  return Ok(Assign(lhs, rhs));
-}
-
-Result<AST> parseVariable(String input) {
-  final match =
-      RegExp(r"^ *([a-zA-Zäåö ]*[a-zA-Zäåö]+) *").firstMatch(input)?.group(1);
-  if (match == null) {
-    return const None();
-  }
-
-  return Ok(Variable(match));
-}
+bool isLeftAssociative(Token token) => token.when(
+    number: (value) => false,
+    variable: (name) => false,
+    assignment: () => true,
+    plus: () => true,
+    minus: () => true,
+    multiply: () => true,
+    divide: () => true,
+    leftParenthesis: () => true,
+    rightParenthesis: () => true,
+    power: () => false);
