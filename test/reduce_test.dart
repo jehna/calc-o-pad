@@ -23,4 +23,12 @@ void main() {
             env("päivää: 1 + 2\nMörri Möykky: 3 + 4\nMörri Möykky + päivää")),
         env("päivää: 3\nMörri Möykky: 7\n10"));
   });
+
+  test('A type transfers over in artihmetic', () {
+    expect(reduce(env("1 + 2 apples")), env("3 apples"));
+  });
+
+  test("euro transfers over in artihmetic", () {
+    expect(reduce(env("1€ + 2")), env("3 €"));
+  });
 }

@@ -131,7 +131,10 @@ Parser<String> not(Parser<String> parser) {
   };
 }
 
-Parser<String> variableWord = repeat(oneOf([letter, digit]));
+Parser<String> variableWord = join([
+  letter,
+  maybeString(repeat(oneOf([letter, digit])))
+]);
 
 Parser<VariableToken> variable = map(
     trim(join([
@@ -151,7 +154,7 @@ Parser<NumberToken> number = map(
       oneOf([char("."), to(char(","), ".")]),
       repeat(digit)
     ])),
-    maybeString(join([maybeString(char(' ')), repeat(letter)])),
+    maybeString(join([to(maybeString(char(' ')), ' '), repeat(letter)])),
   ])),
   (String numberTypeString, String rest) {
     final numberType = numberTypeString.split(' ').skip(1).join("");
