@@ -21,6 +21,7 @@ class _NotePageState extends State<NotePage> {
   List<String> _autofillHints = [];
   late DocumentReference<Map<String, dynamic>>? _doc;
   bool hasInitialised = false;
+  late FocusNode mainTextareaFocus;
 
   Future _setDoc(String documentId) async {
     _doc = await getDocumentReference(documentId);
@@ -88,6 +89,7 @@ class _NotePageState extends State<NotePage> {
     super.initState();
     textEditController.text = widget.note.text;
     titleController.text = widget.note.title;
+    mainTextareaFocus = FocusNode();
     _setDoc(widget.note.id);
     textEditController.addListener(_onTextChanged);
     titleController.addListener(_onTitleChanged);
@@ -121,31 +123,61 @@ class _NotePageState extends State<NotePage> {
                       maxLines: 1,
                       style: const TextStyle(fontSize: 22),
                       controller: titleController,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         hintText: "Title",
                         border: InputBorder.none,
                       )),
-                  TextField(
-                      controller: textEditController,
-                      maxLines: null,
-                      minLines: 1,
-                      autocorrect: false,
-                      autofillHints: _autofillHints,
-                      autofocus: true,
-                      enableSuggestions: false,
-                      style: const TextStyle(
-                          leadingDistribution:
-                              TextLeadingDistribution.proportional),
-                      decoration: const InputDecoration(
-                          hintText: "Calculations",
-                          border: InputBorder.none,
-                          isDense: true)),
+                  Container(
+                      constraints: BoxConstraints(
+                          maxHeight:
+                              MediaQuery.of(context).size.height / 5 * 3),
+                      child: SingleChildScrollView(
+                          child: TextField(
+                              controller: textEditController,
+                              maxLines: null,
+                              minLines: 1,
+                              autocorrect: false,
+                              autofillHints: _autofillHints,
+                              autofocus: true,
+                              focusNode: mainTextareaFocus,
+                              enableSuggestions: false,
+                              style: const TextStyle(
+                                  leadingDistribution:
+                                      TextLeadingDistribution.proportional),
+                              decoration: const InputDecoration(
+                                  hintText: "Calculations",
+                                  border: InputBorder.none,
+                                  isDense: true)))),
                   const SizedBox(height: 5),
-                  Text(
-                    _result,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(color: Colors.blueAccent),
-                  ),
+                  Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        mainTextareaFocus.requestFocus();
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration:
+                                const BoxDecoration(color: Colors.transparent),
+                          ),
+                          SingleChildScrollView(
+                              child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                Text(
+                                  _result,
+                                  textAlign: TextAlign.left,
+                                  style:
+                                      const TextStyle(color: Colors.blueAccent),
+                                ),
+                              ]))
+                        ],
+                      ),
+                    ),
+                  )
                 ])));
   }
 }
