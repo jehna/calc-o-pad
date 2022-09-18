@@ -31,4 +31,33 @@ void main() {
   test("euro transfers over in artihmetic", () {
     expect(reduce(env("1€ + 2")), env("3 €"));
   });
+
+  group("Percentages", () {
+    // Percentage aswers with references to answers from Wolfram Alpha
+
+    test("bahave regularly with other percentages", () {
+      // Wolfram Alpha considers that percentages are recursively applied, but I think values with same type should behave regularly
+      expect(reduce(env("20% + 20%")), env("40%")); // WA: 24%
+      expect(reduce(env("20% - 20%")), env("0%")); // WA: 16%
+      expect(reduce(env("20% * 20%")), env("400%")); // WA: 4%
+      expect(reduce(env("20% / 20%")), env("1%")); // WA: 1
+    });
+
+    test('Addition and subtraction with mixed types have special cases', () {
+      expect(reduce(env("20 + 20%")), env("24"));
+      expect(reduce(env("20% + 20")), env("24"));
+      expect(reduce(env("-20 + 20%")), env("-24"));
+      expect(reduce(env("20 - 20%")), env("16"));
+      expect(reduce(env("20% - 20")), env("-24"));
+    });
+
+    test(
+        'are otherwise converted to a fraction for sanity when they\'re mixed with other types',
+        () {
+      expect(reduce(env("20% * 20")), env("4"));
+      expect(reduce(env("20 * 20%")), env("4"));
+      expect(reduce(env("20% / 20")), env("0.01"));
+      expect(reduce(env("20 / 20%")), env("100")); // WA: 0.01
+    });
+  });
 }

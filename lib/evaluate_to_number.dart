@@ -4,11 +4,31 @@ import 'package:calc_o_pad/parse.dart';
 
 Number evaluateToNumber(AST ast) => ast.when(
     number: ((value, type) => Number(value, type)),
-    add: (operands) => operands.fold<Number>(
-        const Number(0.0), (sum, value) => add(sum, evaluateToNumber(value))),
+    add: (operands) => operands
+            .sublist(1)
+            .fold<Number>(evaluateToNumber(operands.first), (sum, value) {
+          final numValue = evaluateToNumber(value);
+          // TODO: Generalise over arithmetic between different types when we have more special cases
+          if (numValue.type == "%" && sum.type != "%") {
+            return multiply(sum, add(const Number(1), numValue));
+          } else if (numValue.type != "%" && sum.type == "%") {
+            return multiply(add(const Number(1), sum), numValue);
+          }
+          return add(sum, numValue);
+        }),
     subtract: (operands) => operands.sublist(1).fold<Number>(
           evaluateToNumber(operands.first),
-          (difference, value) => subtract(difference, evaluateToNumber(value)),
+          (difference, value) {
+            final numValue = evaluateToNumber(value);
+            // TODO: Generalise over arithmetic between different types when we have more special cases
+            if (numValue.type == "%" && difference.type != "%") {
+              return multiply(difference, Number(1 - (numValue.value / 100)));
+            } else if (numValue.type != "%" && difference.type == "%") {
+              return multiply(subtract(const Number(0), numValue),
+                  Number(1 + (difference.value / 100)));
+            }
+            return subtract(difference, evaluateToNumber(value));
+          },
         ),
     multiply: (operands) => operands
         .map<Number>(evaluateToNumber)
@@ -31,6 +51,11 @@ Number Function(Number a, Number b) _reduceNumbers(
   return (a, b) {
     if (a.type == b.type) {
       return Number(callback(a.value, b.value), a.type);
+    } else if (a.type == "%" && b.type != "%") {
+      // TODO: Generalise over arithmetic between different types when we have more special cases
+      return Number(callback(a.value / 100, b.value), b.type);
+    } else if (a.type != "%" && b.type == "%") {
+      return Number(callback(a.value, b.value / 100), a.type);
     } else if (a.type == "") {
       return Number(callback(a.value, b.value), b.type);
     } else if (b.type == "") {
