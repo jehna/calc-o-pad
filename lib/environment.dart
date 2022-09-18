@@ -6,6 +6,17 @@ part 'environment.freezed.dart';
 class Environment with _$Environment {
   const factory Environment(List<AST> items) = _Environment;
 
-  factory Environment.fromString(String input) => Environment(
-      input.split('\n').where((line) => line.isNotEmpty).map(parse).toList());
+  factory Environment.fromString(String input) => Environment(input
+      .split('\n')
+      .where((line) => line.isNotEmpty)
+      .expand(tryParse)
+      .toList());
+}
+
+List<AST> tryParse(String line) {
+  try {
+    return [parse(line)];
+  } catch (e) {
+    return [];
+  }
 }

@@ -32,6 +32,10 @@ void main() {
     expect(reduce(env("1€ + 2")), env("3 €"));
   });
 
+  test("reduces only rows that can be parsed", () {
+    expect(reduce(env("1 + 2\nthere are two dogs\nx: 10")), env("3\nx: 10"));
+  });
+
   group("Percentages", () {
     // Percentage aswers with references to answers from Wolfram Alpha
 
