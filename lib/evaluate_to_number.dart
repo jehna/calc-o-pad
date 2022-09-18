@@ -31,9 +31,9 @@ Number Function(Number a, Number b) _reduceNumbers(
   return (a, b) {
     if (a.type == b.type) {
       return Number(callback(a.value, b.value), a.type);
-    } else if (a.type == null) {
+    } else if (a.type == "") {
       return Number(callback(a.value, b.value), b.type);
-    } else if (b.type == null) {
+    } else if (b.type == "") {
       return Number(callback(a.value, b.value), a.type);
     } else {
       throw "Cannot combine numbers of different types";
