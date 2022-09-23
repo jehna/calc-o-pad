@@ -1,9 +1,11 @@
 import 'package:calc_o_pad/environment.dart';
 import 'package:calc_o_pad/firebase.dart';
+import 'package:calc_o_pad/onboarding.dart';
 import 'package:calc_o_pad/parse.dart';
 import 'package:calc_o_pad/pretty.dart';
 import 'package:calc_o_pad/reduce.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NotePage extends StatefulWidget {
@@ -93,6 +95,19 @@ class _NotePageState extends State<NotePage> {
     _setDoc(widget.note.id);
     textEditController.addListener(_onTextChanged);
     titleController.addListener(_onTitleChanged);
+    showOnboarding();
+  }
+
+  void showOnboarding() async {
+    final auth = FirebaseAuth.instanceFor(app: await getApp());
+    if (await auth.userChanges().first == null) {
+      // user is not logged in, will log in anonymously, this is the first time using so show onboarding
+      titleController.text = onboardingTitle;
+      textEditController.text = onboardingBody;
+      // Wait for  a few seconds to make sure we're authenticated
+      await Future.delayed(const Duration(seconds: 5));
+      _update({'title': onboardingTitle, 'text': onboardingBody});
+    }
   }
 
   @override
