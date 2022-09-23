@@ -8,7 +8,7 @@ expression you type in.
 
 Visit the website:
 
-https://cheerful-sorbet-4853dc.netlify.app/
+https://calc-o-pad.thejunkland.com/
 
 ## Local development
 
