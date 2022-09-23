@@ -9,4 +9,7 @@ People: 4
 Tip: 7%
 Taxi to hotel: 20€
 Total: Restaurant bill + Tip + Taxi to hotel
-Per person: Total / People""";
+Per person: Total / People
+
+-- Make sure to install the app on your phone 📲
+-- You can do it by selecting "Add to Home Screen" from the menu in your browser 🏡""";
