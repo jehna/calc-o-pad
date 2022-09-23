@@ -1,3 +1,4 @@
+![Calc-o-pad logo](https://raw.githubusercontent.com/jehna/calc-o-pad/master/logo.svg)
 # Calc-o-pad
 > Notepad with calculator
 
