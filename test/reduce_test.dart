@@ -24,6 +24,13 @@ void main() {
         env("päivää: 3\nMörri Möykky: 7\n10"));
   });
 
+  test("reduces variables with long names", () {
+    expect(
+        reduce(env(
+            "One more thing: 1\nSome very long sentence: 3 + 4\nSome very long sentence + One more thing")),
+        env("One more thing: 1\nSome very long sentence: 7\n8"));
+  });
+
   test('A type transfers over in artihmetic', () {
     expect(reduce(env("1 + 2 apples")), env("3 apples"));
   });
@@ -33,7 +40,7 @@ void main() {
   });
 
   test("reduces only rows that can be parsed", () {
-    expect(reduce(env("1 + 2\nthere are two dogs\nx: 10")), env("3\nx: 10"));
+    expect(reduce(env("1 + 2\nthere are two dogs:\nx: 10")), env("3\nx: 10"));
   });
 
   group("Percentages", () {

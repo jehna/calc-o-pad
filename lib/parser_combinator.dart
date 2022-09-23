@@ -139,10 +139,10 @@ Parser<String> variableWord = join([
 Parser<VariableToken> variable = map(
     trim(join([
       variableWord,
-      maybeString(join([
+      maybeString(repeat(join([
         whitespace,
         repeat(variableWord),
-      ])),
+      ]))),
     ])),
     (String value, rest) => Success(VariableToken(value), rest));
 
