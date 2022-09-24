@@ -7,6 +7,7 @@ import 'package:calc_o_pad/reduce.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class NotePage extends StatefulWidget {
   final Note note;
@@ -24,12 +25,17 @@ class _NotePageState extends State<NotePage> {
   late DocumentReference<Map<String, dynamic>>? _doc;
   bool hasInitialised = false;
   late FocusNode mainTextareaFocus;
+  final debounceUpdates = BehaviorSubject<Map<String, String>>();
 
   Future _setDoc(String documentId) async {
     _doc = await getDocumentReference(documentId);
   }
 
   Future _update(Map<String, String> values) async {
+    debounceUpdates.add(values);
+  }
+
+  Future _doUpdate(Map<String, String> values) async {
     if (_doc == null) {
       return;
     }
@@ -96,6 +102,7 @@ class _NotePageState extends State<NotePage> {
     textEditController.addListener(_onTextChanged);
     titleController.addListener(_onTitleChanged);
     showOnboarding();
+    debounceUpdates.debounceTime(const Duration(seconds: 5)).listen(_doUpdate);
   }
 
   void showOnboarding() async {
@@ -104,8 +111,6 @@ class _NotePageState extends State<NotePage> {
       // user is not logged in, will log in anonymously, this is the first time using so show onboarding
       titleController.text = onboardingTitle;
       textEditController.text = onboardingBody;
-      // Wait for  a few seconds to make sure we're authenticated
-      await Future.delayed(const Duration(seconds: 5));
       _update({'title': onboardingTitle, 'text': onboardingBody});
     }
   }
